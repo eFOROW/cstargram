@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "4490842083",
+    "firebase_url": "https://cstargram-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "cstargram",
+    "storage_bucket": "cstargram.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:4490842083:android:3ac31b561733d6ee8e5ad6",
+        "android_client_info": {
+          "package_name": "kr.ac.wsu.cstargram"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWGiZ0j_A_x8d0tvyIQuLvbCiEwRaIs6o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
