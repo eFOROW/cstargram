@@ -51,7 +51,9 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
 
     //noinspection UseTomlInstead
-    implementation ("com.github.bumptech.glide:glide:4.14.2")
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
     //noinspection UseTomlInstead
-    annotationProcessor ("com.github.bumptech.glide:compiler:4.14.2")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
+    //noinspection UseTomlInstead
+    implementation ("com.sothree.slidinguppanel:library:3.4.0")
 }

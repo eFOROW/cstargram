@@ -1,6 +1,5 @@
 package kr.ac.wsu.cstargram;
 
-import static android.content.ContentValues.TAG;
 import static android.view.View.GONE;
 
 import android.content.Intent;
@@ -8,7 +7,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,7 +35,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;

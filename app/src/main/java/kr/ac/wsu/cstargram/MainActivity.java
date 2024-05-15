@@ -3,7 +3,6 @@ package kr.ac.wsu.cstargram;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     FirebaseDatabase database;
     private final List<DB_class> DB_class = new ArrayList<>();
+
+    //sliding panel
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
