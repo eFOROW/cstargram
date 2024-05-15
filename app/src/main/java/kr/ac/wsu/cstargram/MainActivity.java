@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //Toast.makeText(MainActivity.this, view.get, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, view.get, Toast.LENGTH_SHORT).show()
                     }
                 });
             }
