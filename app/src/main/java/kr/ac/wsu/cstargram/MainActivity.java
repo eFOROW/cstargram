@@ -1,12 +1,14 @@
 package kr.ac.wsu.cstargram;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -85,14 +87,40 @@ public class MainActivity extends AppCompatActivity {
         cmt_Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                comment_update();
             }
         });
 
     }
 
     public void comment_update(){
+        DatabaseReference myRef = database.getReference("feed").child(DB_class.get(id).path_key+"/comment").push(); //코멘트 업데이트
+        myRef.child("nickname").setValue("user");
+        myRef.child("message").setValue(cmt_eT.getText().toString());
+        myRef.child("time").setValue(getCurrentTime()+"");
+        myRef = database.getReference("feed").child(DB_class.get(id).path_key+"/comment_count"); //카운트 값 올리기
+        DatabaseReference finalMyRef = myRef;
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //String id = dataSnapshot.getValue(String.class);
+                //int index = Integer.valueOf(id).intValue() + 1;
+                //finalMyRef.setValue(index+"");
+            }
 
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+            }
+        });
+        cmt_eT.setText("");
+        //hideKeyboard();
+    }
+
+    void hideKeyboard()
+    {
+        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     private void feed_init() {
@@ -197,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
         //어떤 피드의 댓글 인지 구분 필요 => DB_class.get(getAdapterPosition()).idKey
         //int id 전역변수 ex)210513617059659 => key 값
 
-        database.getReference().child("feed").child(DB_class.get(id).path_key+"/comment").orderByChild("time").addListenerForSingleValueEvent(new ValueEventListener() {
+        database.getReference().child("feed").child(DB_class.get(id).path_key+"/comment").orderByChild("time").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DB_cmt_class.clear();
@@ -230,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
             ((CustomViewHolder) holder).message_tv.setText(DB_cmt_class.get(position).message);
 
 
-            int time = getCurrentTime() - DB_cmt_class.get(position).time;
+            int time = getCurrentTime() - Integer.parseInt(DB_cmt_class.get(position).time);
             ((CustomViewHolder) holder).time_tv.setText(time == 0 ? " • 오늘" : " • " + time +"일전");
         }
 
