@@ -45,16 +45,6 @@
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:text="이미지 Url"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/dm_imgUrl_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
             android:text="갤러리에서 이미지 업로드"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -75,6 +65,7 @@
             android:layout_height="wrap_content"/>
 
         <Button
+            android:visibility="invisible"
             android:id="@+id/dm_Upload_Button"
             android:text="업로드"
             android:layout_width="match_parent"

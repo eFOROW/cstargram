@@ -69,7 +69,6 @@ public class UploadActivity extends AppCompatActivity {
         EditText nickname_et = (EditText) findViewById(R.id.dm_nickname_editText);
         EditText place_et = (EditText) findViewById(R.id.dm_place_editText);
         EditText description_et = (EditText) findViewById(R.id.dm_description_editText);
-        EditText imgUrl_et = (EditText) findViewById(R.id.dm_imgUrl_editText);
         imgpick_Btn = (Button) findViewById(R.id.dm_imagepick_Button);
         imgView = (ImageView) findViewById(R.id.dm_imageView);
 
@@ -94,14 +93,17 @@ public class UploadActivity extends AppCompatActivity {
                         myRef.child("place").setValue(place_et.getText().toString());
                         myRef.child("description").setValue(description_et.getText().toString());
 
-                        if(!img) myRef.child("iv_Url").setValue(imgUrl_et.getText().toString());
-                        else myRef.child("iv_Url").setValue(get_imgUrl);
+                        myRef.child("iv_Url").setValue(get_imgUrl);
 
                         myRef.child("up_time").setValue(getCurrentTime2());
                         myRef.child("comment_count").setValue(0+"");
-                        myRef.child("idKey").setValue(idKey);
-                        myRef = database.getReference("idKey");
-                        myRef.setValue(idKey+"");
+
+                        //https://cstargram-default-rtdb.asia-southeast1.firebasedatabase.app/feed/-Ny-Q8p-hWGtPc5sDnIp
+
+                        String path = myRef.toString();
+                        path = path.substring(path.indexOf("feed/")+5);
+                        myRef.child("path_key").setValue(path);
+                        myRef.child("idKey").setValue(idKey+"");
                         Toast.makeText(UploadActivity.this, "업로드 완료", Toast.LENGTH_SHORT).show();
                         finish();
                     }
@@ -120,8 +122,6 @@ public class UploadActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!img){
                     //이미지 선택
-                    imgUrl_et.setText("");
-                    imgUrl_et.setVisibility(GONE);
                     Intent intent = new Intent();
                     intent.setType("image/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -138,11 +138,13 @@ public class UploadActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     get_imgUrl = uri.toString();
+                                    upload_Btn.setVisibility(View.VISIBLE);
                                 }
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-
+                                    Toast.makeText(UploadActivity.this, "업로드 실패", Toast.LENGTH_SHORT).show();
+                                    finish();
                                 }
                             });
                         }

@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     EditText cmt_eT;
     ImageView cmt_Btn;
     int id;
-    long key;
+    String key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,17 +97,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /*int value = (int)snapshot.getValue(Integer.class);//저장된 값을 숫자로 받아오고
-                            value +=1;//숫자를 1 증가시켜서
-                            databaseReference.child("Together_group_list").child(Gname).child("gap").setValue(value);//저장*/
     public void comment_update(){
         key = DB_class.get(id).path_key;
-        DatabaseReference myRef = database.getReference("feed").child(key+"").child("comment").push(); //코멘트 업데이트
+        DatabaseReference myRef = database.getReference("feed").child(key).child("comment").push(); //코멘트 업데이트
         myRef.child("nickname").setValue("user");
         myRef.child("message").setValue(cmt_eT.getText().toString());
         myRef.child("time").setValue(getCurrentTime());
 
-        myRef = database.getReference("feed").child(key+"/comment_count"); //카운트 값 올리기
+        myRef = database.getReference("feed").child(key).child("comment_count"); //카운트 값 올리기
         DatabaseReference finalMyRef = myRef;
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

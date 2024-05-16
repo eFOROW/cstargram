@@ -6,8 +6,6 @@ public class DB_class {
     public String description;
     public String iv_Url;
     public String comment_count;
-    public int idKey;
-
-    public long path_key;
+    public String path_key;
 
 }
