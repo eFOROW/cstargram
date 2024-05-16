@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     EditText cmt_eT;
     ImageView cmt_Btn;
     int id;
+    long key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,18 +98,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void comment_update(){
-        DatabaseReference myRef = database.getReference("feed").child(DB_class.get(id).path_key+"/comment").push(); //코멘트 업데이트
+        key = DB_class.get(id).path_key;
+        DatabaseReference myRef = database.getReference("feed").child(key+"").child("comment").push(); //코멘트 업데이트
         myRef.child("nickname").setValue("user");
         myRef.child("message").setValue(cmt_eT.getText().toString());
-        myRef.child("time").setValue(getCurrentTime()+"");
-        myRef = database.getReference("feed").child(DB_class.get(id).path_key+"/comment_count"); //카운트 값 올리기
+        myRef.child("time").setValue(getCurrentTime());
+
+        myRef = database.getReference("feed").child(key+"/comment_count"); //카운트 값 올리기
         DatabaseReference finalMyRef = myRef;
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //String id = dataSnapshot.getValue(String.class);
-                //int index = Integer.valueOf(id).intValue() + 1;
-                //finalMyRef.setValue(index+"");
+                String id = dataSnapshot.getValue(String.class);
+                int idKey = Integer.valueOf(id).intValue() + 1;
+                finalMyRef.setValue(idKey+"");
             }
 
             @Override
@@ -113,14 +119,14 @@ public class MainActivity extends AppCompatActivity {
                 // Failed to read value
             }
         });
+
         cmt_eT.setText("");
-        //hideKeyboard();
+        keyBordHide();
     }
 
-    void hideKeyboard()
-    {
-        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    void keyBordHide() {
+        Window window = getWindow();
+        new WindowInsetsControllerCompat(window, window.getDecorView()).hide(WindowInsetsCompat.Type.ime());
     }
 
     private void feed_init() {
@@ -258,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
             ((CustomViewHolder) holder).message_tv.setText(DB_cmt_class.get(position).message);
 
 
-            int time = getCurrentTime() - Integer.parseInt(DB_cmt_class.get(position).time);
+            int time = getCurrentTime() - DB_cmt_class.get(position).time;
             ((CustomViewHolder) holder).time_tv.setText(time == 0 ? " • 오늘" : " • " + time +"일전");
         }
 

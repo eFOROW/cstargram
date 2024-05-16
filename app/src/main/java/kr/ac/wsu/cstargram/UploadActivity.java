@@ -89,23 +89,17 @@ public class UploadActivity extends AppCompatActivity {
                 upload_Btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        DatabaseReference myRef = database.getReference("feed").child(time).child("nickname");
-                        myRef.setValue(nickname_et.getText().toString());
-                        myRef = database.getReference("feed").child(time).child("place");
-                        myRef.setValue(place_et.getText().toString());
-                        myRef = database.getReference("feed").child(time).child("description");
-                        myRef.setValue(description_et.getText().toString());
-                        myRef = database.getReference("feed").child(time).child("iv_Url");
+                        DatabaseReference myRef = database.getReference("feed").push();
+                        myRef.child("nickname").setValue(nickname_et.getText().toString());
+                        myRef.child("place").setValue(place_et.getText().toString());
+                        myRef.child("description").setValue(description_et.getText().toString());
 
-                        if(!img) myRef.setValue(imgUrl_et.getText().toString());
-                        else myRef.setValue(get_imgUrl);
+                        if(!img) myRef.child("iv_Url").setValue(imgUrl_et.getText().toString());
+                        else myRef.child("iv_Url").setValue(get_imgUrl);
 
-                        myRef = database.getReference("feed").child(time).child("up_time");
-                        myRef.setValue(getCurrentTime2());
-                        myRef = database.getReference("feed").child(time).child("comment_count");
-                        myRef.setValue(0);
-                        myRef = database.getReference("feed").child(time).child("idKey");
-                        myRef.setValue(idKey);
+                        myRef.child("up_time").setValue(getCurrentTime2());
+                        myRef.child("comment_count").setValue(0+"");
+                        myRef.child("idKey").setValue(idKey);
                         myRef = database.getReference("idKey");
                         myRef.setValue(idKey+"");
                         Toast.makeText(UploadActivity.this, "업로드 완료", Toast.LENGTH_SHORT).show();
