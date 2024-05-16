@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
         myRef.child("nickname").setValue(currentUser.getDisplayName());
         myRef.child("message").setValue(cmt_eT.getText().toString());
         myRef.child("time").setValue(getCurrentTime());
+        myRef.child("photo_Uri").setValue(currentUser.getPhotoUrl()+"");
 
         myRef = database.getReference("feed").child(key).child("comment_count"); //카운트 값 올리기
         DatabaseReference finalMyRef = myRef;
@@ -192,6 +193,9 @@ public class MainActivity extends AppCompatActivity {
 
             String imgUrl = DB_class.get(position).iv_Url;
             Glide.with(MainActivity.this).load(imgUrl).placeholder(getDrawable(R.drawable.cstar_story_my)).into(((CustomViewHolder) holder).item_iv);
+
+            String uploader_imgUrl = DB_class.get(position).uploader_photo;
+            Glide.with(MainActivity.this).load(uploader_imgUrl).placeholder(getDrawable(R.drawable.cstar_story)).into(((CustomViewHolder) holder).photo_iv);
         }
 
         @Override
@@ -201,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
         private class CustomViewHolder extends RecyclerView.ViewHolder {
             TextView nickname_tv, place_tv, ft_nickname_tv, ft_description_tv, count_tv;
-            ImageView item_iv;
+            ImageView item_iv, photo_iv;
 
             public CustomViewHolder(View view) {
                 super(view);
@@ -211,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
                 ft_description_tv = (TextView) view.findViewById(R.id.itme_foot_description_textView);
                 item_iv = (ImageView) view.findViewById(R.id.item_imageView);
                 count_tv = (TextView) view.findViewById(R.id.item_comment_count_textView);
+                photo_iv = (ImageView) view.findViewById(R.id.item_user_phote_imageView);
 
                 count_tv.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -281,9 +286,12 @@ public class MainActivity extends AppCompatActivity {
             ((CustomViewHolder) holder).nickname_tv.setText(DB_cmt_class.get(position).nickname);
             ((CustomViewHolder) holder).message_tv.setText(DB_cmt_class.get(position).message);
 
-
             int time = getCurrentTime() - DB_cmt_class.get(position).time;
             ((CustomViewHolder) holder).time_tv.setText(time == 0 ? " • 오늘" : " • " + time +"일전");
+
+            String uploader_imgUrl = DB_cmt_class.get(position).photo_Uri;
+            Glide.with(MainActivity.this).load(uploader_imgUrl).placeholder(getDrawable(R.drawable.cstar_story))
+                    .into(((cmt_RecyclerViewAdapter.CustomViewHolder) holder).photo_iv);
         }
 
         @Override
@@ -293,12 +301,14 @@ public class MainActivity extends AppCompatActivity {
 
         private class CustomViewHolder extends RecyclerView.ViewHolder {
             TextView nickname_tv, message_tv, time_tv;
+            ImageView photo_iv;
 
             public CustomViewHolder(View view) {
                 super(view);
                 nickname_tv = (TextView) view.findViewById(R.id.comment_item_nickname_textView);
                 message_tv = (TextView) view.findViewById(R.id.comment_item_message_textView);
                 time_tv = (TextView) view.findViewById(R.id.comment_item_time_textView);
+                photo_iv = (ImageView) view.findViewById(R.id.comment_item_photo_imageView);
             }
         }
     }

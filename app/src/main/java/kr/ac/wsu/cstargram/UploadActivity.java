@@ -106,8 +106,8 @@ public class UploadActivity extends AppCompatActivity {
                         myRef.child("nickname").setValue(currentUser.getDisplayName());
                         myRef.child("place").setValue(place_et.getText().toString());
                         myRef.child("description").setValue(description_et.getText().toString());
-
                         myRef.child("iv_Url").setValue(get_imgUrl);
+                        myRef.child("uploader_photo").setValue(currentUser.getPhotoUrl()+"");
 
                         myRef.child("up_time").setValue(getCurrentTime2());
                         myRef.child("comment_count").setValue(0+"");
