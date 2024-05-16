@@ -102,6 +102,8 @@ public class UploadActivity extends AppCompatActivity {
 
                         myRef = database.getReference("feed").child(time).child("up_time");
                         myRef.setValue(getCurrentTime2());
+                        myRef = database.getReference("feed").child(time).child("comment_count");
+                        myRef.setValue(0);
                         myRef = database.getReference("feed").child(time).child("idKey");
                         myRef.setValue(idKey);
                         myRef = database.getReference("idKey");
@@ -168,14 +170,14 @@ public class UploadActivity extends AppCompatActivity {
     public static String getCurrentTime() {
         long now = System.currentTimeMillis();
         Date currentTime = new Date(now);
-        DateFormat dateFormat = new SimpleDateFormat("YYMMDDHHMMSSMS");
+        DateFormat dateFormat = new SimpleDateFormat("yyMMddHHMMSSMS");
 
         return dateFormat.format(currentTime);
     }
     public static String getCurrentTime2() {
         long now = System.currentTimeMillis();
         Date currentTime = new Date(now);
-        DateFormat dateFormat = new SimpleDateFormat("YY.MM.DD.HH:MM:SS");
+        DateFormat dateFormat = new SimpleDateFormat("yy.MM.dd.HH:MM:SS");
 
         return dateFormat.format(currentTime);
     }

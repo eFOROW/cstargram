@@ -9,8 +9,8 @@
     android:gravity="bottom"
     app:umanoDragView="@id/dragView"
     app:umanoPanelHeight="0dp"
-    app:umanoOverlay="false"
-    app:umanoShadowHeight="10dp">
+    app:umanoOverlay="true"
+    app:umanoShadowHeight="5dp">
     <!-- gravity 를 bottom으로 하면 아래에서 위로 드래그, top으로 하면 위에서 아래로 드래그 할 수 있다.
              umanoDragView 드래그 해서 보여줄 view를 선택
              umanoScrollableView  슬라이딩 패널에 내용물이 패널에 표시되는것보다 많을 때 스크롤 해서 보여줄 view 부분
@@ -197,8 +197,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <!-- 하단 탭바 -->
-
     </LinearLayout>
 
     <!-- 댓글 슬라이딩 패널 -->
@@ -209,33 +207,14 @@
         android:layout_marginTop="10dp"
         android:clickable="true"
         android:focusable="false"
+        android:background="#00FFFFFF"
         android:orientation="vertical">
 
-        <View
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:layout_width="55dp"
-            android:layout_height="5dp"
-            android:background="@drawable/round_border"/>
-
-        <TextView
-            android:layout_margin="8dp"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
+        <include
+            android:id="@+id/comment_layout"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:text="댓글"
-            android:textSize="16sp" />
-
-        <View
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#D5D5D5"/>
-
-        <!-- 스크롤 해서 보여줄 부분은 listview 또는 custom listview 또는 recyclerview를 사용 -->
+            layout="@layout/comment_panel"/>
 
     </LinearLayout>
 
