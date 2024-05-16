@@ -113,7 +113,7 @@ public class UploadActivity extends AppCompatActivity {
                         myRef.child("comment_count").setValue(0+"");
 
                         //https://cstargram-default-rtdb.asia-southeast1.firebasedatabase.app/feed/-Ny-Q8p-hWGtPc5sDnIp
-                        //feed/로 부터 5분 뒤 -부터 저장
+                        //feed/로 부터 5분 뒤 '-'부터 저장
                         String path = myRef.toString();
                         path = path.substring(path.indexOf("feed/")+5);
                         myRef.child("path_key").setValue(path);
