@@ -29,6 +29,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,12 +50,15 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView, cmt_recyclerView;
+
+    public FirebaseAuth mAuth;
+    FirebaseUser currentUser;
     FirebaseDatabase database;
     private final List<DB_class> DB_class = new ArrayList<>();
     private final List<DB_cmt_class> DB_cmt_class = new ArrayList<>();
     SlidingUpPanelLayout commentLayout;
     EditText cmt_eT;
-    ImageView cmt_Btn;
+    ImageView cmt_Btn, heart_Btn;
     int id;
     String key;
 
@@ -67,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
 
         recyclerView = (RecyclerView) findViewById(R.id.main_RecyclerView);
@@ -76,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         cmt_recyclerView = (RecyclerView) findViewById(R.id.comment_RecyclerView);
         cmt_eT = (EditText) findViewById(R.id.comment_editText);
         cmt_Btn = (ImageView) findViewById(R.id.comment_Send_imageView);
+        heart_Btn = (ImageView) findViewById(R.id.main_heart_imageView);
 
         feed_init(); //초기 세팅(피드 등)
 
@@ -85,6 +93,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, UploadActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        heart_Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -100,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     public void comment_update(){
         key = DB_class.get(id).path_key;
         DatabaseReference myRef = database.getReference("feed").child(key).child("comment").push(); //코멘트 업데이트
-        myRef.child("nickname").setValue("user");
+        myRef.child("nickname").setValue(currentUser.getDisplayName());
         myRef.child("message").setValue(cmt_eT.getText().toString());
         myRef.child("time").setValue(getCurrentTime());
 

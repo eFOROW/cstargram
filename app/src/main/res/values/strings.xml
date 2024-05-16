@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">cstargram</string>
+    <string name="app_name">Cstargram</string>
+    <string name="default_web_client_id">4490842083-jp834jkufbjvqvkinmbmdkrcb7d5b4h8.apps.googleusercontent.com</string>
 </resources>
