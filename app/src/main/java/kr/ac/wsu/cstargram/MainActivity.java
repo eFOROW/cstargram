@@ -91,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /*int value = (int)snapshot.getValue(Integer.class);//저장된 값을 숫자로 받아오고
+                            value +=1;//숫자를 1 증가시켜서
+                            databaseReference.child("Together_group_list").child(Gname).child("gap").setValue(value);//저장*/
     public void comment_update(){
 
     }
